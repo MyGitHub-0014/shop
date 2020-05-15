@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aishang.dao.UserDao">
+
+    <!--查询全部用户信息 id:方法名 resultType:返回值 返回值是对象就写对象的全限定类名 集合就写集合的泛型-->
+    <select id="getAll" resultType="User">
+        select * from user
+    </select>
+
+    <!--检测用户名是否可用 parameterType:传参的参数类型-->
+    <select id="checkUserName" resultType="Integer" parameterType="String">
+        select count(0) from user where username=#{userName}
+    </select>
+
+    <!--执行注册添加 parameterType:传参的参数类型-->
+    <insert id="addUser" parameterType="User" >
+        insert into user values(default,#{userName},#{passWord},#{name},#{email},#{phone},#{addr},#{state},#{code})
+    </insert>
+
+    <!--登录校验-->
+    <select id="doLogin" parameterType="User" resultType="User">
+        select * from user where username=#{userName} and password=#{passWord}
+    </select>
+
+    <!--修改个人资料-->
+    <update id="updatePersonalData" parameterType="User">
+        update user set password=#{passWord},email=#{email},phone=#{phone} where username=#{userName}
+    </update>
+</mapper>
